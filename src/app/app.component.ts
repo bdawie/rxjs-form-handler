@@ -48,7 +48,6 @@ export class AppComponent implements OnInit {
           }
         } else {
           this.emailContext.text = 'Plesae fill this field!';
-
           return '';
         }
       })
@@ -61,13 +60,14 @@ export class AppComponent implements OnInit {
         if (value.length > 0) {
           if (value.length >= 4) {
             this.passwordContext.text = '';
-
             return value;
           } else {
             this.passwordContext.text = 'Too short password!';
+            return '';
           }
         } else {
           this.passwordContext.text = 'Password cannot be empty!';
+          return '';
         }
       })
     );
@@ -86,14 +86,20 @@ export class AppComponent implements OnInit {
           this.repeatedPasswordValue = (results[0] as any).target.value;
 
           if (this.emailValue.length) {
-            if (this.passwordValue === this.repeatedPasswordValue) {
-              this.isDisabled = false;
-              this.repeatPasswordContext.text = '';
+            if (this.passwordValue.length) {
+              if (this.passwordValue === this.repeatedPasswordValue) {
+                this.isDisabled = false;
+                this.repeatPasswordContext.text = '';
+              } else {
+                this.repeatPasswordContext.text = 'Password do not match!';
+                this.isDisabled = true;
+              }
             } else {
-              this.repeatPasswordContext.text = 'Password do not match!';
+              this.repeatPasswordContext.text = '';
               this.isDisabled = true;
             }
           } else {
+            this.repeatPasswordContext.text = '';
             this.isDisabled = true;
           }
         },
